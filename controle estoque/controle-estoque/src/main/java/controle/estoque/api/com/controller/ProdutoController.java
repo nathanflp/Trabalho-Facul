@@ -28,7 +28,7 @@ public class ProdutoController {
     @GetMapping
     public ResponseEntity getAllProduct(){
         List<ProdutoEntity> produto = service.listarTodos();
-        return ResponseEntity.ok(produto);
+        return ResponseEntity.status(HttpStatus.OK).body(produto);
     }
 
     @Operation(summary = "Lista um produto", method = "GET")
@@ -47,14 +47,14 @@ public class ProdutoController {
     @PostMapping
     public ResponseEntity createProduct(@RequestBody @Valid ProdutoEntityDTO dto){
         ProdutoEntity novoProduto = service.criarProduto(dto);
-        return ResponseEntity.ok(HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto.nome() + " foi incluido na base de dados");
     }
 
     @Operation(summary = "Atualiza um produto", method = "PUT")
     @PutMapping
     public ResponseEntity updateProduct(@RequestBody ProdutoEntityDTO dto) throws ProdutoException {
         service.atualizarProduto(dto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.OK).body(dto.nome() + " atualizado com sucesso");
     }
 
     @Operation(summary = "Exclui um produto", method = "DELETE")
@@ -65,7 +65,7 @@ public class ProdutoController {
         } catch (ProdutoException e) {
             System.out.println(e.getMessage());
         }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Produto excluido");
     }
 }
 
