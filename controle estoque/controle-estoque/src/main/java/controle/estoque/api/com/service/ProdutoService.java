@@ -19,16 +19,14 @@ public class ProdutoService {
 
     //Método para listar todos os produto
     public List<ProdutoEntity> listarTodos() {
-        List<ProdutoEntity> todosProdutos = repository.findAll();
-        return todosProdutos;
+        return repository.findAll();
     }
 
     //Método para listar somente um produto
     public ProdutoEntity listarUm(Integer id) throws ProdutoException  {
         Optional<ProdutoEntity> umProduto = repository.findById(id);
         if (umProduto.isPresent()) {
-            ProdutoEntity produto = umProduto.get();
-            return produto;
+            return umProduto.get();
         }
         else {
             throw new ProdutoException("Produto não encontrado na base de dados");
